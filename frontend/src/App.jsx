@@ -13,10 +13,6 @@ function App() {
     fetchData().then((d) => setData(d.data));
   }, []);
 
-  useEffect(() => {
-    console.log('data change', data);
-  }, [data]);
-
   return (
     <>
       <div className="card">
