@@ -1,7 +1,21 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+
+async function fetchData() {
+  const resp = await fetch('api');
+  return await resp.json();
+}
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
+  const [data, setData] = useState();
+
+  useEffect(() => {
+    fetchData().then((d) => setData(d.data));
+  }, []);
+
+  useEffect(() => {
+    console.log('data change', data);
+  }, [data]);
 
   return (
     <>
@@ -9,9 +23,9 @@ function App() {
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+      </div>
+      <div>
+        from api: {data}
       </div>
     </>
   )
