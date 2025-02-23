@@ -3,17 +3,23 @@ import { Steps } from 'antd'
 import { QuestionCard } from './question-show-answer'
 import { Question } from './types'
 
-async function fetchData() {
-  const resp = await fetch('api/lesson')
+async function fetchData({ tag }: { tag?: string }) {
+  const queryParams = { tag }
+  const query = Object.entries(queryParams)
+    .filter(([, value]) => value !== undefined)
+    .map(([name, value]) => `${name}=${value}`)
+    .join('&')
+
+  const resp = await fetch(`api/lesson?${query}`)
   return await resp.json()
 }
 
-export const Lesson: React.FC = () => {
+export const Lesson: React.FC<{ tag?: string }> = ({ tag }) => {
   const [questions, setQuestions] = useState<Question[]>([])
   const [current, setCurrent] = useState(0)
 
   useEffect(() => {
-    fetchData().then((response) => setQuestions(response.questions))
+    fetchData({ tag }).then((response) => setQuestions(response.questions))
   }, [])
 
   const isLast = (current: number) => current === questions.length - 1
