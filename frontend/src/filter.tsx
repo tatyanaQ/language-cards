@@ -3,22 +3,22 @@ import { Select } from 'antd'
 
 const emptyValue = '-'
 
-async function fetchData() {
+async function fetchTags() {
   const resp = await fetch('api/tags')
   return await resp.json()
 }
 
-export const Filter: React.FC<{ selectTag: (string) => void }> = ({
-  selectTag,
-}) => {
+export const Filter: React.FC<{
+  selectTag: (string) => void
+}> = ({ selectTag }) => {
   const [tags, setTags] = useState<string[]>([])
   const [selectedTag, setSelectedTag] = useState<string | undefined>()
 
   useEffect(() => {
-    fetchData().then((response) => setTags(response.tags))
+    fetchTags().then((response) => setTags(response.tags))
   }, [])
 
-  const onSelect = (t) => {
+  const onTagSelect = (t) => {
     setSelectedTag(t)
     selectTag(t === emptyValue ? undefined : t)
   }
@@ -30,7 +30,7 @@ export const Filter: React.FC<{ selectTag: (string) => void }> = ({
           label: tag,
           value: tag,
         }))}
-        onSelect={onSelect}
+        onSelect={onTagSelect}
         value={selectedTag}
         style={{ minWidth: '150px' }}
       />

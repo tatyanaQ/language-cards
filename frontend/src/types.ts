@@ -1,1 +1,6 @@
-export type Question = { q: string; a: string }
+export type Question = {
+  item: string
+  translation: string
+  language: string
+  tags: string[]
+}

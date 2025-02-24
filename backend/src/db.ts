@@ -1,12 +1,14 @@
 export const questions = [
   {
-    q: 'Hello',
-    a: 'Labas',
-    tags: ['l-1'],
+    item: 'Labas',
+    translation: 'Hello',
+    language: 'lt',
+    tags: ['lesson:1'],
   },
   {
-    q: 'Bye',
-    a: 'Viso gero',
-    tags: ['l-2'],
+    item: 'Viso gero',
+    translation: 'Bye',
+    language: 'lt',
+    tags: ['lesson:2'],
   },
 ]

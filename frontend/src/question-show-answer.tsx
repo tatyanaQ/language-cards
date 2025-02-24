@@ -30,9 +30,9 @@ export const QuestionCard: React.FC<{
 
   return (
     <>
-      <div style={contentStyle}>{question.q}</div>
+      <div style={contentStyle}>{question.translation}</div>
       <Button onClick={onCheck}>Check</Button>
-      {ready && <div>{question.a}</div>}
+      {ready && <div>{question.item}</div>}
       <div style={{ marginTop: 24 }}>
         <Button type="primary" disabled={!ready} onClick={onNext}>
           {isLast ? 'Done' : 'Next'}
