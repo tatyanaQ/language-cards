@@ -25,7 +25,7 @@ export const Lesson: React.FC<{ tag?: string }> = ({ tag }) => {
 
   const items = questions.map((item, index) => ({
     key: index,
-    title: index + 1,
+    title: '',
   }))
 
   return (
