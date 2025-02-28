@@ -8,7 +8,7 @@ router.get('/', (req: Request, res: Response) => {
 })
 
 router.get('/tags', (req: Request, res: Response) => {
-  const allTags = questions.map(({ tags }) => tags)
+  const allTags = questions.flatMap(({ tags }) => tags)
 
   res.json({
     tags: Array.from(new Set(allTags)),

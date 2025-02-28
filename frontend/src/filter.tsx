@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { Select } from 'antd'
+import { fetchTags } from './api'
 
 const emptyValue = '-'
-
-async function fetchTags() {
-  const resp = await fetch('api/tags')
-  return await resp.json()
-}
 
 export const Filter: React.FC<{
   selectTag: (string) => void

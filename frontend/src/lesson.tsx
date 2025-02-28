@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Steps } from 'antd'
 import { QuestionCard } from './question-show-answer'
 import { Question } from './types'
+import { fetchLesson } from './api'
 import { shuffleArray } from './utils'
 
 export const Lesson: React.FC<{ tag?: string }> = ({ tag }) => {
@@ -9,7 +10,7 @@ export const Lesson: React.FC<{ tag?: string }> = ({ tag }) => {
   const [current, setCurrent] = useState(0)
 
   useEffect(() => {
-    fetchData({ tag }).then((response) =>
+    fetchLesson({ tag }).then((response) =>
       setQuestions(shuffleArray(response.questions))
     )
   }, [])
