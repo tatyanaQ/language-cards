@@ -8,7 +8,7 @@ const buildQuery = (params: Record<string, unknown>) =>
 
 const localFetch = async (url: string) => {
   try {
-    const host = import.meta.env.VITE_SOME_KEY
+    const host = import.meta.env.VITE_HOST
     return await fetch(`${host}/api/${url}`)
   } catch (e) {
     console.log(e)
