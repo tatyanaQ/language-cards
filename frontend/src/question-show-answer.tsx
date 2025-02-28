@@ -1,6 +1,12 @@
 import React, { useState } from 'react'
-import { Button } from 'antd'
+import { Button, Row, Col } from 'antd'
 import { Question } from './types'
+
+const centeredChildrenStyle = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+}
 
 export const QuestionCard: React.FC<{
   question: Question
@@ -29,15 +35,28 @@ export const QuestionCard: React.FC<{
   }
 
   return (
-    <>
-      <div style={contentStyle}>{question.translation}</div>
-      <Button onClick={onCheck}>Check</Button>
-      {ready && <div>{question.item}</div>}
-      <div style={{ marginTop: 24 }}>
-        <Button type="primary" disabled={!ready} onClick={onNext}>
-          {isLast ? 'Done' : 'Next'}
-        </Button>
-      </div>
-    </>
+    <Row style={centeredChildrenStyle}>
+      <Col flex={7}>
+        <div style={contentStyle}>{question.translation}</div>
+      </Col>
+      <Col flex={1} style={centeredChildrenStyle}>
+        <Row>
+          <Col>
+            <Row>
+              <Button onClick={onCheck}>Check</Button>
+            </Row>
+            <Row style={{ marginBottom: '48px' }} />
+            <Row>
+              <Button type="primary" disabled={!ready} onClick={onNext}>
+                {isLast ? 'Done' : 'Next'}
+              </Button>
+            </Row>
+          </Col>
+        </Row>
+      </Col>
+      <Col flex={7}>
+        <div style={contentStyle}>{ready ? question.item : '???'}</div>
+      </Col>
+    </Row>
   )
 }
