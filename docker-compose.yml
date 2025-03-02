@@ -3,13 +3,15 @@ services:
     build: .
     ports:
       - 8000:8000
-  #   depends_on:
-  #     - mongo
-  # mongo:
-  #   image: mongo:latest
-  #   container_name: mongo
-  #   environment:
-  #     MONGO_INITDB_ROOT_USERNAME: root
-  #     MONGO_INITDB_ROOT_PASSWORD: root
-  #   volumes:
-  #     - dbdata:/data/db
+    depends_on:
+      - mongo
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    ports:
+      - 27017:27017
+    volumes:
+      - /var/opt/language-cards-db:/data/db

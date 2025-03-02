@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express'
-import { questions } from './db'
+import { Question } from './db/models/question'
 
 const router = Router()
 
@@ -7,7 +7,8 @@ router.get('/', (req: Request, res: Response) => {
   res.json({ data: 'hello from api' })
 })
 
-router.get('/tags', (req: Request, res: Response) => {
+router.get('/tags', async (req: Request, res: Response) => {
+  const questions = await Question.find()
   const allTags = questions.flatMap(({ tags }) => tags)
 
   res.json({
@@ -15,14 +16,14 @@ router.get('/tags', (req: Request, res: Response) => {
   })
 })
 
-router.get('/lesson', (req: Request, res: Response) => {
+router.get('/lesson', async (req: Request, res: Response) => {
   const { tag } = req.query || {}
 
-  const qs = questions.filter(({ tags }) =>
-    tag ? tags.includes(tag as string) : true
-  )
+  const query = { ...(tag && { tags: tag }) }
 
-  res.json({ questions: qs })
+  const questions = await Question.find(query)
+
+  res.json({ questions })
 })
 
 export default router
