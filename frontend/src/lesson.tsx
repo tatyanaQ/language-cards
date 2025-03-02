@@ -5,12 +5,15 @@ import { Question } from './types'
 import { fetchLesson } from './api'
 import { shuffleArray } from './utils'
 
-export const Lesson: React.FC<{ tag?: string }> = ({ tag }) => {
+export const Lesson: React.FC<{ tag?: string; limit?: number }> = ({
+  tag,
+  limit,
+}) => {
   const [questions, setQuestions] = useState<Question[]>([])
   const [current, setCurrent] = useState(0)
 
   useEffect(() => {
-    fetchLesson({ tag }).then((response) =>
+    fetchLesson({ tag, limit }).then((response) =>
       setQuestions(shuffleArray(response.questions))
     )
   }, [])

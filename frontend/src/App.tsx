@@ -5,17 +5,14 @@ import { Button } from 'antd'
 
 function App() {
   const [selectedTag, setSelectedTag] = useState<string | undefined>()
+  const [limit, setLimit] = useState<number | undefined>()
   const [filterReady, setFilterReady] = useState<boolean>(false)
 
-  const selectTag = (tag) => {
-    setSelectedTag(tag)
-  }
-
   return filterReady ? (
-    <Lesson tag={selectedTag} />
+    <Lesson tag={selectedTag} limit={limit} />
   ) : (
     <>
-      <Filter selectTag={selectTag} />
+      <Filter selectTag={setSelectedTag} setLimit={setLimit} />
       <Button onClick={() => setFilterReady(true)}>Start</Button>
     </>
   )

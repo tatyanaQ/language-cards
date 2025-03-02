@@ -23,6 +23,7 @@ export const fetchTags = async (): Promise<{ tags: string[] }> => {
 
 export const fetchLesson = async (queryParams: {
   tag?: string
+  limit?: number
 }): Promise<{ questions: Question[] }> => {
   const query = buildQuery(queryParams)
 

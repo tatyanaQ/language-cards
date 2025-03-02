@@ -17,11 +17,13 @@ router.get('/tags', async (req: Request, res: Response) => {
 })
 
 router.get('/lesson', async (req: Request, res: Response) => {
-  const { tag } = req.query || {}
+  const { tag, limit } = req.query || {}
 
   const query = { ...(tag && { tags: tag }) }
 
-  const questions = await Question.find(query)
+  const options = { ...(limit && { limit: Number(limit) }) }
+
+  const questions = await Question.find(query, null, options)
 
   res.json({ questions })
 })

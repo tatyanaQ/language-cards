@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { Select } from 'antd'
+import { Input, Select } from 'antd'
 import { fetchTags } from './api'
 
 const emptyValue = '-'
 
 export const Filter: React.FC<{
   selectTag: (string) => void
-}> = ({ selectTag }) => {
+  setLimit: (number) => void
+}> = ({ selectTag, setLimit }) => {
   const [tags, setTags] = useState<string[]>([])
   const [selectedTag, setSelectedTag] = useState<string | undefined>()
 
@@ -30,6 +31,7 @@ export const Filter: React.FC<{
         value={selectedTag}
         style={{ minWidth: '150px' }}
       />
+      <Input type="number" onChange={(e) => setLimit(e.target.value)} />
     </>
   )
 }
