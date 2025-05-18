@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Lesson } from './lesson'
 import { Filter } from './filter'
 import { Button } from 'antd'
+import { FlexColumn } from './components/FlexColumn'
 
 function App() {
   const [selectedTag, setSelectedTag] = useState<string | undefined>()
@@ -11,10 +12,10 @@ function App() {
   return filterReady ? (
     <Lesson tag={selectedTag} limit={limit} />
   ) : (
-    <>
+    <FlexColumn>
       <Filter selectTag={setSelectedTag} setLimit={setLimit} />
-      <Button onClick={() => setFilterReady(true)}>Start</Button>
-    </>
+      <Button onClick={() => setFilterReady(true)}>Go!</Button>
+    </FlexColumn>
   )
 }
 
