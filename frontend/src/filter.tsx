@@ -8,8 +8,9 @@ const emptyValue = '-'
 
 export const Filter: React.FC<{
   selectTag: (string) => void
+  defaultLimit?: number
   setLimit: (number) => void
-}> = ({ selectTag, setLimit }) => {
+}> = ({ selectTag, defaultLimit, setLimit }) => {
   const [tags, setTags] = useState<string[]>([])
   const [selectedTag, setSelectedTag] = useState<string | undefined>()
 
@@ -39,7 +40,11 @@ export const Filter: React.FC<{
 
       <FlexRow>
         <>Limit</>
-        <Input type="number" onChange={(e) => setLimit(e.target.value)} />
+        <Input
+          type="number"
+          defaultValue={defaultLimit}
+          onChange={(e) => setLimit(e.target.value)}
+        />
       </FlexRow>
     </FlexColumn>
   )
