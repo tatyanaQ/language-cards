@@ -13,8 +13,8 @@ export const Lesson: React.FC<{ tag?: string; limit?: number }> = ({
   const [current, setCurrent] = useState(0)
 
   useEffect(() => {
-    fetchLesson({ tag, limit }).then((response) =>
-      setQuestions(shuffleArray(response.questions))
+    fetchLesson({ tag }).then((response) =>
+      setQuestions(shuffleArray(response.questions).slice(0, limit))
     )
   }, [])
 
