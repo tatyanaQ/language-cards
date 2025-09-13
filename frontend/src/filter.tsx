@@ -3,6 +3,7 @@ import { Input, Select } from 'antd'
 import { fetchTags } from './api'
 import { FlexRow } from './components/FlexRow'
 import { FlexColumn } from './components/FlexColumn'
+import { QuestionType } from './enums'
 
 const emptyValue = '-'
 
@@ -10,7 +11,9 @@ export const Filter: React.FC<{
   selectTag: (string) => void
   defaultLimit?: number
   setLimit: (number) => void
-}> = ({ selectTag, defaultLimit, setLimit }) => {
+  questionType: string
+  setQuestionType: (string) => void
+}> = ({ selectTag, defaultLimit, setLimit, questionType, setQuestionType }) => {
   const [tags, setTags] = useState<string[]>([])
   const [selectedTag, setSelectedTag] = useState<string | undefined>()
 
@@ -21,6 +24,10 @@ export const Filter: React.FC<{
   const onTagSelect = (t) => {
     setSelectedTag(t)
     selectTag(t === emptyValue ? undefined : t)
+  }
+
+  const onQuestionTypeSelect = (qt) => {
+    setQuestionType(qt)
   }
 
   return (
@@ -44,6 +51,19 @@ export const Filter: React.FC<{
           type="number"
           defaultValue={defaultLimit}
           onChange={(e) => setLimit(e.target.value)}
+        />
+      </FlexRow>
+
+      <FlexRow>
+        <>Question type:</>
+        <Select
+          options={Object.values(QuestionType).map((qt) => ({
+            label: qt,
+            value: qt,
+          }))}
+          onSelect={onQuestionTypeSelect}
+          value={questionType}
+          style={{ minWidth: '150px' }}
         />
       </FlexRow>
     </FlexColumn>

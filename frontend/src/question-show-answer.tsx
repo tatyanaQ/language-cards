@@ -8,7 +8,7 @@ const centeredChildrenStyle = {
   justifyContent: 'center',
 }
 
-export const QuestionCard: React.FC<{
+export const QuestionShowAnswerCard: React.FC<{
   question: Question
   next: () => void
   isLast: boolean

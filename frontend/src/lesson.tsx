@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import { Steps } from 'antd'
-import { QuestionCard } from './question-show-answer'
+import { QuestionCard } from './question'
 import { Question } from './types'
 import { fetchLesson } from './api'
 import { shuffleArray } from './utils'
+import { QuestionType } from './enums'
 
-export const Lesson: React.FC<{ tag?: string; limit?: number }> = ({
-  tag,
-  limit,
-}) => {
+export const Lesson: React.FC<{
+  tag?: string
+  limit?: number
+  questionType: QuestionType
+}> = ({ tag, limit, questionType }) => {
   const [questions, setQuestions] = useState<Question[]>([])
   const [current, setCurrent] = useState(0)
 
@@ -37,6 +39,7 @@ export const Lesson: React.FC<{ tag?: string; limit?: number }> = ({
         <>
           <Steps current={current} items={items} />
           <QuestionCard
+            questionType={questionType}
             question={questions[current]}
             next={next}
             isLast={isLast(current)}
