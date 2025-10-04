@@ -1,5 +1,8 @@
 import { connect } from 'mongoose'
 
 export const dbConnect = async () => {
-  await connect('mongodb://root:root@mongo:27017/lanuage-cards?authSource=admin')
+  const uri =
+    process.env.MONGODB_URI ||
+    'mongodb://root:root@mongo:27017/lanuage-cards?authSource=admin'
+  await connect(uri)
 }
