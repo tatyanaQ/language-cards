@@ -9,7 +9,9 @@ const buildQuery = (params: Record<string, unknown>) =>
 const localFetch = async (url: string) => {
   try {
     const host = import.meta.env.VITE_HOST
-    return await fetch(`${host}/api/${url}`)
+    // no need for host when deployed
+    const hostUrl = `${host ? `${host}/` : ''}api/${url}`
+    return await fetch(hostUrl)
   } catch (e) {
     console.log(e)
     throw e
