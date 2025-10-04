@@ -13,7 +13,9 @@ const items: MenuItem[] = routes.map(({ key, label }) => ({
 
 export default function Root() {
   const location = useLocation()
-  const [current, setCurrent] = useState(location.pathname.split('/')[1])
+  const [current, setCurrent] = useState(
+    location.pathname.split('/')[1] || routes[0].key
+  )
 
   const onClick: MenuProps['onClick'] = (e) => {
     setCurrent(e.key)
