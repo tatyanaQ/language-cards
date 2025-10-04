@@ -1,6 +1,6 @@
 import React from 'react'
-import { Question } from './types'
-import { QuestionType } from './enums'
+import { Question } from '../../../types'
+import { QuestionType } from '../../../enums'
 import { QuestionShowAnswerCard } from './question-show-answer'
 import { QuestionEnterAnswerCard } from './question-enter-answer'
 

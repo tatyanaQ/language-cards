@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Steps } from 'antd'
-import { QuestionCard } from '../../question'
+import { QuestionCard } from './questions/question'
 import { Question } from '../../types'
 import { fetchLesson } from '../../api'
 import { shuffleArray } from '../../utils'
