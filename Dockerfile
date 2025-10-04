@@ -13,7 +13,7 @@ WORKDIR /usr/app/src/frontend
 
 RUN npm ci
 RUN npm run build
-RUN cp -r dist/ /usr/app/src/backend/dist/frontend/
+RUN cp -r dist/ /usr/app/src/backend/dist/public/
 
 WORKDIR /usr/app/src/backend/
 

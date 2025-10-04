@@ -14,7 +14,7 @@ const initApp = () => {
     })
   )
 
-  app.use(express.static(path.join(__dirname, 'frontend')))
+  app.use(express.static(path.join(__dirname, 'public')))
 
   app.use('/api', router)
 }
