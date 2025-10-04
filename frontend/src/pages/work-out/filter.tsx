@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { Input, Select } from 'antd'
-import { fetchTags } from './api'
-import { FlexRow } from './components/FlexRow'
-import { FlexColumn } from './components/FlexColumn'
-import { QuestionType } from './enums'
+import { fetchTags } from '../../api'
+import { FlexRow } from '../../components/FlexRow'
+import { FlexColumn } from '../../components/FlexColumn'
+import { QuestionType } from '../../enums'
 
 const emptyValue = '-'
 

@@ -2,12 +2,12 @@ import React, { useState } from 'react'
 import { Lesson } from './lesson'
 import { Filter } from './filter'
 import { Button } from 'antd'
-import { FlexColumn } from './components/FlexColumn'
-import { QuestionType } from './enums'
+import { FlexColumn } from '../../components/FlexColumn'
+import { QuestionType } from '../../enums'
 
 const defaultLimit = 20
 
-function App() {
+function WorkOut() {
   const [selectedTag, setSelectedTag] = useState<string | undefined>()
   const [limit, setLimit] = useState<number | undefined>(defaultLimit)
   const [questionType, setQuestionType] = useState<QuestionType>(
@@ -31,4 +31,4 @@ function App() {
   )
 }
 
-export default App
+export default WorkOut

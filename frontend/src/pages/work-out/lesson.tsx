@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { Steps } from 'antd'
-import { QuestionCard } from './question'
-import { Question } from './types'
-import { fetchLesson } from './api'
-import { shuffleArray } from './utils'
-import { QuestionType } from './enums'
+import { QuestionCard } from '../../question'
+import { Question } from '../../types'
+import { fetchLesson } from '../../api'
+import { shuffleArray } from '../../utils'
+import { QuestionType } from '../../enums'
 
 export const Lesson: React.FC<{
   tag?: string
