@@ -4,9 +4,9 @@ import cors from 'cors'
 import router from './router'
 import { dbConnect } from './db/models/connect'
 
-const initApp = () => {
-  const app = express()
+const app = express()
 
+const initApp = () => {
   app.use(
     cors({
       origin: 'http://localhost:3000',
@@ -14,15 +14,13 @@ const initApp = () => {
     })
   )
 
-  app.use(express.static(path.join(__dirname, 'frontend')))
+  app.use(express.static(path.join(__dirname, 'public')))
 
   app.use('/api', router)
-
-  return app
 }
 
 const init = async () => {
-  const app = initApp()
+  initApp()
 
   const port = process.env.PORT || 8000
 
@@ -36,3 +34,5 @@ const init = async () => {
 init().catch((error) => {
   console.log(`[server]: Server failed to start. ${error.stack}`)
 })
+
+export default app
