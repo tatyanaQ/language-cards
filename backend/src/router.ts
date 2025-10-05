@@ -30,8 +30,9 @@ router.get('/lesson', async (req: Request, res: Response) => {
   }
 
   const questions = await Question.find(query, null, options)
+  const count = await Question.countDocuments(query)
 
-  res.json({ questions })
+  res.json({ questions, count })
 })
 
 export default router
