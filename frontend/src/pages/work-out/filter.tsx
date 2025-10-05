@@ -4,6 +4,7 @@ import { fetchTags } from '../../api'
 import { FlexRow } from '../../components/FlexRow'
 import { FlexColumn } from '../../components/FlexColumn'
 import { QuestionType } from '../../enums'
+import { useTags } from '../../hooks/useTags'
 
 const emptyValue = '-'
 
@@ -14,12 +15,9 @@ export const Filter: React.FC<{
   questionType: string
   setQuestionType: (string) => void
 }> = ({ selectTag, defaultLimit, setLimit, questionType, setQuestionType }) => {
-  const [tags, setTags] = useState<string[]>([])
   const [selectedTag, setSelectedTag] = useState<string | undefined>()
 
-  useEffect(() => {
-    fetchTags().then((response) => setTags(response.tags))
-  }, [])
+  const { tags, loading: tagsLoading } = useTags()
 
   const onTagSelect = (t) => {
     setSelectedTag(t)
@@ -42,6 +40,7 @@ export const Filter: React.FC<{
           onSelect={onTagSelect}
           value={selectedTag}
           style={{ minWidth: '150px' }}
+          loading={tagsLoading}
         />
       </FlexRow>
 
