@@ -3,6 +3,7 @@ import { fetchLesson } from '../api'
 import { Question } from '../types'
 
 export const useQuestions = (params?: {
+  item?: string
   tag?: string
   page?: number
   limit?: number
@@ -20,7 +21,7 @@ export const useQuestions = (params?: {
       })
       .catch((err) => setError(err))
       .finally(() => setLoading(false))
-  }, [params?.tag, params?.page, params?.limit])
+  }, [params?.item, params?.tag, params?.page, params?.limit])
 
   return { questions, questionsCount, loading, error }
 }
