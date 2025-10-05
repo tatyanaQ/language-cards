@@ -1,26 +1,21 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Steps } from 'antd'
-import { QuestionCard } from '../../question'
-import { Question } from '../../types'
-import { fetchLesson } from '../../api'
-import { shuffleArray } from '../../utils'
+import { QuestionCard } from './questions/question'
 import { QuestionType } from '../../enums'
+import { useShuffledQuestions } from '../../hooks/useShuffledQuestions'
 
 export const Lesson: React.FC<{
   tag?: string
   limit?: number
   questionType: QuestionType
 }> = ({ tag, limit, questionType }) => {
-  const [questions, setQuestions] = useState<Question[]>([])
+  const { shuffledQuestions, loading, error } = useShuffledQuestions({
+    tag,
+    limit,
+  })
   const [current, setCurrent] = useState(0)
 
-  useEffect(() => {
-    fetchLesson({ tag }).then((response) =>
-      setQuestions(shuffleArray(response.questions).slice(0, limit))
-    )
-  }, [])
-
-  const isLast = (current: number) => current === questions.length - 1
+  const isLast = (current: number) => current === shuffledQuestions.length - 1
 
   const next = () => {
     if (!isLast(current)) {
@@ -28,19 +23,22 @@ export const Lesson: React.FC<{
     }
   }
 
-  const items = questions.map((item, index) => ({
+  const items = shuffledQuestions.map((item, index) => ({
     key: index,
     title: '',
   }))
 
+  if (loading) return <>Loading...</>
+  if (error) return <>Failed to fetch questions: {error.message}</>
+
   return (
     <>
-      {questions?.length ? (
+      {shuffledQuestions.length ? (
         <>
           <Steps current={current} items={items} />
           <QuestionCard
             questionType={questionType}
-            question={questions[current]}
+            question={shuffledQuestions[current]}
             next={next}
             isLast={isLast(current)}
           />

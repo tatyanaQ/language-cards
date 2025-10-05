@@ -25,8 +25,9 @@ export const fetchTags = async (): Promise<{ tags: string[] }> => {
 
 export const fetchLesson = async (queryParams: {
   tag?: string
+  page?: number
   limit?: number
-}): Promise<{ questions: Question[] }> => {
+}): Promise<{ questions: Question[]; count: number }> => {
   const query = buildQuery(queryParams)
 
   const resp = await localFetch(`lesson?${query}`)

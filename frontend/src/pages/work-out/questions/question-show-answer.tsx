@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Button, Row, Col } from 'antd'
-import { Question } from './types'
+import { Question } from '../../../types'
 
 const centeredChildrenStyle = {
   display: 'flex',

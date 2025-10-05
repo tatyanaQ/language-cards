@@ -17,15 +17,22 @@ router.get('/tags', async (req: Request, res: Response) => {
 })
 
 router.get('/lesson', async (req: Request, res: Response) => {
-  const { tag, limit } = req.query || {}
+  const { tag, page = '1', limit = '100' } = req.query || {}
 
   const query = { ...(tag && { tags: tag }) }
 
-  const options = { ...(limit && { limit: Number(limit) }) }
+  const numberPage = Number(page)
+  const numberLimit = Number(limit)
+
+  const options = {
+    skip: (numberPage - 1) * numberLimit,
+    limit: numberLimit,
+  }
 
   const questions = await Question.find(query, null, options)
+  const count = await Question.countDocuments(query)
 
-  res.json({ questions })
+  res.json({ questions, count })
 })
 
 export default router
