@@ -17,9 +17,12 @@ router.get('/tags', async (req: Request, res: Response) => {
 })
 
 router.get('/lesson', async (req: Request, res: Response) => {
-  const { tag, page = '1', limit = '100' } = req.query || {}
+  const { item, tag, page = '1', limit = '100' } = req.query || {}
 
-  const query = { ...(tag && { tags: tag }) }
+  const query = {
+    ...(item && { item: new RegExp(String(item)) }),
+    ...(tag && { tags: tag }),
+  }
 
   const numberPage = Number(page)
   const numberLimit = Number(limit)
