@@ -4,7 +4,7 @@ import { Question } from '../../types'
 import { ColumnsType } from 'antd/es/table'
 import { useQuestions } from '../../hooks/useQuestions'
 
-const DEFAULT_PAGE_SIZE = 2
+const DEFAULT_PAGE_SIZE = 10
 
 const Cards: React.FC = () => {
   const [pagination, setPagination] = useState({
