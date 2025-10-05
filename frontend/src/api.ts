@@ -24,6 +24,7 @@ export const fetchTags = async (): Promise<{ tags: string[] }> => {
 }
 
 export const fetchLesson = async (queryParams: {
+  item?: string
   tag?: string
   page?: number
   limit?: number
