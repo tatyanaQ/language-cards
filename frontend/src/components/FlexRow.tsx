@@ -1,6 +1,10 @@
 import React from 'react'
 
-export const FlexRow: React.FC<React.PropsWithChildren> = ({ children }) => {
+export const FlexRow: React.FC<
+  React.PropsWithChildren<{
+    style?: React.CSSProperties
+  }>
+> = ({ style, children }) => {
   return (
     <div
       style={{
@@ -8,6 +12,7 @@ export const FlexRow: React.FC<React.PropsWithChildren> = ({ children }) => {
         flexDirection: 'row',
         gap: '16px',
         alignItems: 'baseline',
+        ...style,
       }}
     >
       {children}
