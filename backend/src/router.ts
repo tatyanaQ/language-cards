@@ -16,7 +16,7 @@ router.get('/tags', async (req: Request, res: Response) => {
   })
 })
 
-router.get('/lesson', async (req: Request, res: Response) => {
+router.get('/questions', async (req: Request, res: Response) => {
   const { item, tag, page = '1', limit = '100' } = req.query || {}
 
   const query = {
@@ -36,6 +36,25 @@ router.get('/lesson', async (req: Request, res: Response) => {
   const count = await Question.countDocuments(query)
 
   res.json({ questions, count })
+})
+
+router.get('/lesson', async (req: Request, res: Response) => {
+  const { tag, limit = '20' } = req.query || {}
+
+  const query = {
+    ...(tag && { tags: tag }),
+  }
+
+  const numberLimit = Number(limit)
+
+  const pipeline = [
+    ...(Object.keys(query).length ? [{ $match: query }] : []),
+    { $sample: { size: numberLimit } },
+  ]
+
+  const questions = await Question.aggregate(pipeline)
+
+  res.json({ questions })
 })
 
 export default router

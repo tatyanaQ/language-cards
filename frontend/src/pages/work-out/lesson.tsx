@@ -2,20 +2,20 @@ import React, { useState } from 'react'
 import { Steps } from 'antd'
 import { QuestionCard } from './questions/question'
 import { QuestionType } from '../../enums'
-import { useShuffledQuestions } from '../../hooks/useShuffledQuestions'
+import { useLesson } from '../../hooks/useLesson'
 
 export const Lesson: React.FC<{
   tag?: string
   limit?: number
   questionType: QuestionType
 }> = ({ tag, limit, questionType }) => {
-  const { shuffledQuestions, loading, error } = useShuffledQuestions({
+  const { questions, loading, error } = useLesson({
     tag,
     limit,
   })
   const [current, setCurrent] = useState(0)
 
-  const isLast = (current: number) => current === shuffledQuestions.length - 1
+  const isLast = (current: number) => current === questions.length - 1
 
   const next = () => {
     if (!isLast(current)) {
@@ -23,7 +23,7 @@ export const Lesson: React.FC<{
     }
   }
 
-  const items = shuffledQuestions.map((item, index) => ({
+  const items = questions.map((item, index) => ({
     key: index,
     title: '',
   }))
@@ -33,12 +33,12 @@ export const Lesson: React.FC<{
 
   return (
     <>
-      {shuffledQuestions.length ? (
+      {questions.length ? (
         <>
           <Steps current={current} items={items} />
           <QuestionCard
             questionType={questionType}
-            question={shuffledQuestions[current]}
+            question={questions[current]}
             next={next}
             isLast={isLast(current)}
           />
