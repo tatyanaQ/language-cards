@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { fetchLesson } from '../api'
+import { fetchQuestions } from '../api'
 import { Question } from '../types'
 
 export const useQuestions = (params?: {
@@ -14,7 +14,7 @@ export const useQuestions = (params?: {
   const [error, setError] = useState<Error | null>(null)
 
   useEffect(() => {
-    fetchLesson(params || {})
+    fetchQuestions(params || {})
       .then(({ questions, count }) => {
         setQuestions(questions)
         setQuestionsCount(count)
