@@ -34,8 +34,9 @@ const CooljugatorLink: React.FC<{ item: string }> = ({ item }) => (
 const CardTitle: React.FC<{ question: Question }> = ({ question }) => {
   const { item, tags } = question
 
+  const baseItem = item.split(/[,\/]/)[0]
   const isWord = tags && !tags.includes('rule')
-  const isVerb = tags && tags.includes('verb')
+  const isVerb = isWord && tags.includes('verb')
 
   return (
     <div
@@ -48,8 +49,8 @@ const CardTitle: React.FC<{ question: Question }> = ({ question }) => {
       <span>{item}</span>
 
       <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-        {isWord ? <GoogleTranslateLink item={item} /> : null}
-        {isVerb ? <CooljugatorLink item={item} /> : null}
+        {isWord ? <GoogleTranslateLink item={baseItem} /> : null}
+        {isVerb ? <CooljugatorLink item={baseItem} /> : null}
       </div>
     </div>
   )
