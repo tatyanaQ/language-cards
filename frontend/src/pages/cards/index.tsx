@@ -78,6 +78,12 @@ const Cards: React.FC = () => {
       columns={columns}
       loading={loading}
       rowKey="_id"
+      onRow={(record) => ({
+        onClick: () => {
+          window.open(`/cards/${record._id}`, '_blank', 'noopener,noreferrer')
+        },
+        style: { cursor: 'pointer' },
+      })}
       onChange={onChange}
       pagination={{
         position: ['bottomCenter'],
