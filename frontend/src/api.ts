@@ -10,7 +10,7 @@ const localFetch = async (url: string) => {
   try {
     const host = import.meta.env.VITE_HOST
     // no need for host when deployed
-    const hostUrl = `${host ? `${host}/` : ''}api/${url}`
+    const hostUrl = `${host || ''}/api/${url}`
     return await fetch(hostUrl)
   } catch (e) {
     console.log(e)
