@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { Table } from 'antd'
-import { useNavigate } from 'react-router-dom'
 import { Question } from '../../types'
 import { ColumnsType, TableProps } from 'antd/es/table'
 import { useQuestions } from '../../hooks/useQuestions'
@@ -30,8 +29,6 @@ const Cards: React.FC = () => {
     page: pagination.page,
     limit: pagination.pageSize,
   })
-
-  const navigate = useNavigate()
 
   const columns: ColumnsType<Question> = [
     {
@@ -83,7 +80,7 @@ const Cards: React.FC = () => {
       rowKey="_id"
       onRow={(record) => ({
         onClick: () => {
-          navigate(`/cards/${record._id}`)
+          window.open(`/cards/${record._id}`, '_blank', 'noopener,noreferrer')
         },
         style: { cursor: 'pointer' },
       })}
