@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Input, Table } from 'antd'
+import { Table } from 'antd'
 import { Question } from '../../types'
 import { ColumnsType, TableProps } from 'antd/es/table'
 import { useQuestions } from '../../hooks/useQuestions'
@@ -18,11 +18,13 @@ const Cards: React.FC = () => {
 
   const [filters, setFilters] = useState<{
     item?: string[] | null
+    translation?: string[] | null
     tags?: string[] | null
   }>({})
 
   const { questions, questionsCount, loading } = useQuestions({
     item: filters.item ? filters.item[0] : undefined,
+    translation: filters.translation ? filters.translation[0] : undefined,
     tag: filters.tags ? filters.tags[0] : undefined,
     page: pagination.page,
     limit: pagination.pageSize,
@@ -39,6 +41,7 @@ const Cards: React.FC = () => {
       title: 'Translation',
       dataIndex: 'translation',
       key: 'translation',
+      filterDropdown: ColumnTextFilter,
     },
     {
       title: 'Tags',
