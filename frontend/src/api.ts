@@ -10,7 +10,7 @@ const localFetch = async (url: string) => {
   try {
     const host = import.meta.env.VITE_HOST
     // no need for host when deployed
-    const hostUrl = `${host ? `${host}/` : ''}api/${url}`
+    const hostUrl = `${host || ''}/api/${url}`
     return await fetch(hostUrl)
   } catch (e) {
     console.log(e)
@@ -24,6 +24,7 @@ export const fetchTags = async (): Promise<{ tags: string[] }> => {
 }
 
 export const fetchQuestions = async (queryParams: {
+  id?: string
   item?: string
   translation?: string
   tag?: string

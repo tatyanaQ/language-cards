@@ -6,10 +6,12 @@ import { routes } from './routes'
 
 type MenuItem = Required<MenuProps>['items'][number]
 
-const items: MenuItem[] = routes.map(({ key, label }) => ({
-  key,
-  label: <Link to={key}>{label}</Link>,
-}))
+const items: MenuItem[] = routes
+  .filter(({ hidden }) => !hidden)
+  .map(({ key, label }) => ({
+    key,
+    label: <Link to={key}>{label}</Link>,
+  }))
 
 export default function Root() {
   const location = useLocation()

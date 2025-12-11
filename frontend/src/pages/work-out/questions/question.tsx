@@ -10,9 +10,11 @@ export const QuestionCard: React.FC<{
   next: () => void
   isLast: boolean
 }> = ({ questionType, question, next, isLast }) => {
+  let questionComponent: React.ReactNode = null
+
   switch (questionType) {
     case QuestionType.ShowAnswer:
-      return (
+      questionComponent = (
         <QuestionShowAnswerCard
           key={question._id}
           question={question}
@@ -20,8 +22,9 @@ export const QuestionCard: React.FC<{
           isLast={isLast}
         />
       )
+      break
     case QuestionType.EnterAnswer:
-      return (
+      questionComponent = (
         <QuestionEnterAnswerCard
           key={question._id}
           question={question}
@@ -29,7 +32,25 @@ export const QuestionCard: React.FC<{
           isLast={isLast}
         />
       )
+      break
     default:
-      return <></>
+      questionComponent = null
   }
+
+  if (!questionComponent) return <></>
+
+  return (
+    <>
+      {questionComponent}
+      <div style={{ marginTop: 24, textAlign: 'center' }}>
+        <a
+          href={`/cards/${question._id}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Open card ↗️
+        </a>
+      </div>
+    </>
+  )
 }

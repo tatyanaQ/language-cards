@@ -3,6 +3,7 @@ import { fetchQuestions } from '../api'
 import { Question } from '../types'
 
 export const useQuestions = (params?: {
+  id?: string
   item?: string
   translation?: string
   tag?: string
@@ -23,6 +24,7 @@ export const useQuestions = (params?: {
       .catch((err) => setError(err))
       .finally(() => setLoading(false))
   }, [
+    params?.id,
     params?.item,
     params?.translation,
     params?.tag,

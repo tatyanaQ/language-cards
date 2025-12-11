@@ -1,4 +1,5 @@
 import { Router, Request, Response } from 'express'
+import { Types } from 'mongoose'
 import { Question } from './db/models/question'
 
 const router = Router()
@@ -17,9 +18,17 @@ router.get('/tags', async (req: Request, res: Response) => {
 })
 
 router.get('/questions', async (req: Request, res: Response) => {
-  const { item, translation, tag, page = '1', limit = '100' } = req.query || {}
+  const {
+    id,
+    item,
+    translation,
+    tag,
+    page = '1',
+    limit = '100',
+  } = req.query || {}
 
   const query = {
+    ...(id && { _id: new Types.ObjectId(id.toString()) }),
     ...(item && { item: new RegExp(String(item), 'i') }),
     ...(translation && { translation: new RegExp(String(translation), 'i') }),
     ...(tag && { tags: tag }),
