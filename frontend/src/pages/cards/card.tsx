@@ -39,6 +39,9 @@ const Card: React.FC = () => {
           ? question.tags.join(', ')
           : null}
       </p>
+      <p>
+        <strong>Note:</strong> {question.note}
+      </p>
     </AntdCard>
   )
 }

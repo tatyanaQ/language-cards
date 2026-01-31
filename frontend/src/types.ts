@@ -4,4 +4,5 @@ export type Question = {
   translation: string
   language: string
   tags: string[]
+  note?: string
 }
