@@ -1,5 +1,5 @@
 import { queryModel } from './model'
-import { IQuestion } from '../db/models/question'
+import { QuestionDocument } from '../db/models/question'
 
 type SentencePair = {
   itemLanguage: string
@@ -7,7 +7,7 @@ type SentencePair = {
 }
 
 export async function generateSentences(
-  questions: IQuestion[]
+  questions: QuestionDocument[]
 ): Promise<SentencePair[]> {
   const prompt = `Using ITEMS
 ${questions.map(({ item }) => item).join(', ')}

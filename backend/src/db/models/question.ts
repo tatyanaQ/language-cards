@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose'
+import { Schema, model, Document, Types } from 'mongoose'
 
 export interface IQuestion {
   item: string
@@ -15,3 +15,5 @@ const questionSchema = new Schema<IQuestion>({
 })
 
 export const Question = model<IQuestion>('Question', questionSchema)
+
+export type QuestionDocument = { _id: Types.ObjectId } & IQuestion & Document

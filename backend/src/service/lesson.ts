@@ -1,19 +1,18 @@
-import { Question, IQuestion } from '../db/models/question'
+import { Question, QuestionDocument } from '../db/models/question'
 
-export const getLesson = async (
-  query: Record<string, unknown> = {}
-): Promise<IQuestion[]> => {
-  const { tag, limit = '20' } = query
+export const getLesson = async (params: {
+  limit: number
+  tags?: string[]
+}): Promise<QuestionDocument[]> => {
+  const { limit, tags } = params
 
-  const match = {
-    ...(tag ? { tags: tag } : {}),
+  const query = {
+    ...(tags?.length ? { tags: { $in: tags } } : {}),
   }
 
-  const numberLimit = Number(limit)
-
   const pipeline = [
-    ...(Object.keys(match).length ? [{ $match: match }] : []),
-    { $sample: { size: numberLimit } },
+    ...(Object.keys(query).length ? [{ $match: query }] : []),
+    { $sample: { size: limit } },
   ]
 
   return await Question.aggregate(pipeline)
