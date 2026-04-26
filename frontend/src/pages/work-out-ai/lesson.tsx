@@ -75,7 +75,7 @@ export const Lesson: React.FC<{
           <QuestionCard
             questionType={QuestionType.ShowAnswer}
             question={{
-              _id: current.toString(),
+              _id: sentences[current].cardIds[0],
               item: sentences[current].itemLanguage,
               translation: sentences[current].translationLanguage,
               language: '',

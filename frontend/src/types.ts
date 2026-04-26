@@ -10,4 +10,5 @@ export type Question = {
 export type AiQuestion = {
   itemLanguage: string
   translationLanguage: string
+  cardIds: string[]
 }
