@@ -1,6 +1,6 @@
 import { Schema, model, Document, Types } from 'mongoose'
 
-export interface IQuestion {
+interface IQuestion {
   item: string
   translation: string
   tags?: string[]
