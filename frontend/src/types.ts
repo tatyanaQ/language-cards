@@ -6,3 +6,8 @@ export type Question = {
   tags: string[]
   note?: string
 }
+
+export type AiQuestion = {
+  itemLanguage: string
+  translationLanguage: string
+}

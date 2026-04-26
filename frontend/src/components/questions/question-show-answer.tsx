@@ -1,13 +1,7 @@
 import React, { useState } from 'react'
 import { Button } from 'antd'
-import { Question } from '../../../types'
-import { useWindowSize } from '../../../hooks/useWindowSize'
-
-const centeredChildrenStyle = {
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}
+import { Question } from '../../types'
+import { useWindowSize } from '../../hooks/useWindowSize'
 
 export const QuestionShowAnswerCard: React.FC<{
   question: Question

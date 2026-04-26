@@ -1,4 +1,4 @@
-import { Question } from './types'
+import { AiQuestion, Question } from './types'
 
 const buildQuery = (params: Record<string, unknown>) =>
   Object.entries(params)
@@ -44,5 +44,18 @@ export const fetchLesson = async (queryParams: {
   const query = buildQuery(queryParams)
 
   const resp = await localFetch(`lesson?${query}`)
+  return await resp.json()
+}
+
+export const fetchAiLesson = async (queryParams: {
+  tag?: string
+  limit?: number
+}): Promise<{
+  questions: Question[]
+  aiLesson: AiQuestion[]
+}> => {
+  const query = buildQuery(queryParams)
+
+  const resp = await localFetch(`lesson-ai?${query}`)
   return await resp.json()
 }
