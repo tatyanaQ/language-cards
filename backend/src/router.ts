@@ -2,7 +2,7 @@ import { Router, Request, Response } from 'express'
 import { Types } from 'mongoose'
 import { Question } from './db/models/question'
 import { getLesson } from './service/lesson'
-import { generateSentences } from './ai/service'
+import { generateLesson } from './ai/service'
 
 const router = Router()
 
@@ -65,7 +65,7 @@ router.get('/lesson-ai', async (req: Request, res: Response) => {
 
   const questions = await getLesson({ tags, limit })
 
-  const aiLesson = await generateSentences(questions)
+  const aiLesson = await generateLesson(questions)
 
   res.json({ questions, aiLesson })
 })
