@@ -67,4 +67,17 @@ router.get('/lesson', async (req: Request, res: Response) => {
   res.json({ questions })
 })
 
+router.get('/lesson-ai', async (req: Request, res: Response) => {
+  const size = 20
+
+  const pipeline = [
+    { $match: { tags: { $nin: ['rule'] } } },
+    { $sample: { size } },
+  ]
+
+  const questions = await Question.aggregate(pipeline)
+
+  res.json({ questions })
+})
+
 export default router
