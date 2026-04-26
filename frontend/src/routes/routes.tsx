@@ -1,6 +1,7 @@
 import Cards from '../pages/cards'
 import Card from '../pages/cards/card'
 import WorkOut from '../pages/work-out'
+import WorkOutAI from '../pages/work-out-ai'
 
 export const routes = [
   {
@@ -18,5 +19,10 @@ export const routes = [
     key: 'work-out',
     label: 'Work out',
     element: <WorkOut />,
+  },
+  {
+    key: 'work-out-ai',
+    label: 'Work out AI',
+    element: <WorkOutAI />,
   },
 ]

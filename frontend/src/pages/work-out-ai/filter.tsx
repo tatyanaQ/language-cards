@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { Input, Select } from 'antd'
 import { FlexRow } from '../../components/FlexRow'
 import { FlexColumn } from '../../components/FlexColumn'
-import { QuestionType } from '../../enums'
 import { useTags } from '../../hooks/useTags'
 
 const emptyValue = '-'
@@ -11,9 +10,7 @@ export const Filter: React.FC<{
   selectTag: (tag: string) => void
   defaultLimit?: number
   setLimit: (limit: number) => void
-  questionType: string
-  setQuestionType: (questionType: string) => void
-}> = ({ selectTag, defaultLimit, setLimit, questionType, setQuestionType }) => {
+}> = ({ selectTag, defaultLimit, setLimit }) => {
   const [selectedTag, setSelectedTag] = useState<string | undefined>()
 
   const { tags, loading: tagsLoading } = useTags()
@@ -21,10 +18,6 @@ export const Filter: React.FC<{
   const onTagSelect = (t) => {
     setSelectedTag(t)
     selectTag(t === emptyValue ? undefined : t)
-  }
-
-  const onQuestionTypeSelect = (qt) => {
-    setQuestionType(qt)
   }
 
   return (
@@ -49,19 +42,6 @@ export const Filter: React.FC<{
           type="number"
           defaultValue={defaultLimit}
           onChange={(e) => setLimit(e.target.value)}
-        />
-      </FlexRow>
-
-      <FlexRow>
-        <>Question type:</>
-        <Select
-          options={Object.values(QuestionType).map((qt) => ({
-            label: qt,
-            value: qt,
-          }))}
-          onSelect={onQuestionTypeSelect}
-          value={questionType}
-          style={{ minWidth: '150px' }}
         />
       </FlexRow>
     </FlexColumn>

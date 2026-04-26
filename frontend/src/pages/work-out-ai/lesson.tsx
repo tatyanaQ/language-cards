@@ -2,15 +2,14 @@ import React, { useState } from 'react'
 import { Steps } from 'antd'
 import { QuestionCard } from '../../components/questions/question'
 import { QuestionType } from '../../enums'
-import { useLesson } from '../../hooks/useLesson'
 import { useWindowSize } from '../../hooks/useWindowSize'
+import { useAiLesson } from '../../hooks/useAiLesson'
 
 export const Lesson: React.FC<{
   tag?: string
   limit?: number
-  questionType: QuestionType
-}> = ({ tag, limit, questionType }) => {
-  const { questions, loading, error } = useLesson({
+}> = ({ tag, limit }) => {
+  const { sentences, loading, error } = useAiLesson({
     tag,
     limit,
   })
@@ -18,7 +17,7 @@ export const Lesson: React.FC<{
 
   const { isSmall } = useWindowSize(600)
 
-  const isLast = (current: number) => current === questions.length - 1
+  const isLast = (current: number) => current === sentences.length - 1
 
   const next = () => {
     if (!isLast(current)) {
@@ -26,17 +25,17 @@ export const Lesson: React.FC<{
     }
   }
 
-  const items = questions.map((item, index) => ({
+  const items = sentences.map((_, index) => ({
     key: index,
     title: '',
   }))
 
   if (loading) return <>Loading...</>
-  if (error) return <>Failed to fetch questions: {error.message}</>
+  if (error) return <>Failed to fetch work out: {error.message}</>
 
   return (
     <>
-      {questions.length ? (
+      {sentences.length ? (
         <>
           {isSmall || items.length > 30 ? (
             <div style={{ padding: '8px 0', textAlign: 'center' }}>
@@ -67,21 +66,27 @@ export const Lesson: React.FC<{
                   {current + 1}
                 </span>
                 <span style={{ opacity: 0.6 }}>/</span>
-                <span style={{ opacity: 0.85 }}>{questions.length}</span>
+                <span style={{ opacity: 0.85 }}>{sentences.length}</span>
               </div>
             </div>
           ) : (
             <Steps current={current} items={items} />
           )}
           <QuestionCard
-            questionType={questionType}
-            question={questions[current]}
+            questionType={QuestionType.ShowAnswer}
+            question={{
+              _id: sentences[current].cardIds[0],
+              item: sentences[current].itemLanguage,
+              translation: sentences[current].translationLanguage,
+              language: '',
+              tags: [],
+            }}
             next={next}
             isLast={isLast(current)}
           />
         </>
       ) : (
-        <>No questions</>
+        <>No sentences</>
       )}
     </>
   )

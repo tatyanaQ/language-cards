@@ -12,7 +12,7 @@ const GoogleTranslateLink: React.FC<{ item: string }> = ({ item }) => (
     <img
       width="24"
       alt="Logo of Google Translate"
-      src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Google_Translate_logo.svg/512px-Google_Translate_logo.svg.png?20210606111727"
+      src="https://www.gstatic.com/translate/favicon.ico"
     />
   </a>
 )

@@ -1,6 +1,8 @@
 import { Router, Request, Response } from 'express'
 import { Types } from 'mongoose'
 import { Question } from './db/models/question'
+import { getLesson } from './service/lesson'
+import { generateLesson } from './ai/service'
 
 const router = Router()
 
@@ -49,22 +51,23 @@ router.get('/questions', async (req: Request, res: Response) => {
 })
 
 router.get('/lesson', async (req: Request, res: Response) => {
-  const { tag, limit = '20' } = req.query || {}
+  const limit = Number(req.query?.limit) ?? 20
+  const tags = req.query?.tag ? [String(req.query.tag)] : undefined
 
-  const query = {
-    ...(tag && { tags: tag }),
-  }
-
-  const numberLimit = Number(limit)
-
-  const pipeline = [
-    ...(Object.keys(query).length ? [{ $match: query }] : []),
-    { $sample: { size: numberLimit } },
-  ]
-
-  const questions = await Question.aggregate(pipeline)
+  const questions = await getLesson({ tags, limit })
 
   res.json({ questions })
+})
+
+router.get('/lesson-ai', async (req: Request, res: Response) => {
+  const limit = Math.min(Number(req.query?.limit) ?? 20, 20)
+  const tags = req.query?.tag ? [String(req.query.tag)] : undefined
+
+  const questions = await getLesson({ tags, limit })
+
+  const aiLesson = await generateLesson(questions)
+
+  res.json({ questions, aiLesson })
 })
 
 export default router
