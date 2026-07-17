@@ -1,0 +1,20 @@
+{
+  "name": "mcp",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc --noEmit"
+  },
+  "dependencies": {
+    "mcp-handler": "^1.1.0",
+    "zod": "^3.22.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.10",
+    "typescript": "^5.7.5"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "Minimal Vercel-deployable MCP server"
+}
