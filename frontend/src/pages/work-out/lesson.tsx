@@ -4,6 +4,7 @@ import { QuestionCard } from '../../components/questions/question'
 import { QuestionType } from '../../enums'
 import { useLesson } from '../../hooks/useLesson'
 import { useWindowSize } from '../../hooks/useWindowSize'
+import { Report } from './report'
 
 export const Lesson: React.FC<{
   tag?: string
@@ -15,15 +16,32 @@ export const Lesson: React.FC<{
     limit,
   })
   const [current, setCurrent] = useState(0)
+  const [finished, setFinished] = useState(false)
+  const [reportedQuestionIds, setReportedQuestionIds] = useState<string[]>([])
 
   const { isSmall } = useWindowSize(600)
 
   const isLast = (current: number) => current === questions.length - 1
 
+  const toggleReport = (questionId: string) => {
+    setReportedQuestionIds((currentIds) =>
+      currentIds.includes(questionId)
+        ? currentIds.filter((id) => id !== questionId)
+        : [...currentIds, questionId]
+    )
+  }
+
   const next = () => {
     if (!isLast(current)) {
       setCurrent(current + 1)
+    } else {
+      setFinished(true)
     }
+  }
+
+  const finish = () => {
+    window.location.reload()
+    return
   }
 
   const items = questions.map((item, index) => ({
@@ -33,6 +51,18 @@ export const Lesson: React.FC<{
 
   if (loading) return <>Loading...</>
   if (error) return <>Failed to fetch questions: {error.message}</>
+
+  if (finished) {
+    const reportedQuestions = questions.filter((question) =>
+      reportedQuestionIds.includes(question._id)
+    )
+
+    if (reportedQuestionIds.length === 0) {
+      finish()
+    }
+
+    return <Report questions={reportedQuestions} />
+  }
 
   return (
     <>
@@ -78,6 +108,7 @@ export const Lesson: React.FC<{
             question={questions[current]}
             next={next}
             isLast={isLast(current)}
+            onToggleReport={toggleReport}
           />
         </>
       ) : (
