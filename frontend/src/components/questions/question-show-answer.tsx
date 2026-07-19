@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button } from 'antd'
+import { Button, Checkbox } from 'antd'
 import { Question } from '../../types'
 import { useWindowSize } from '../../hooks/useWindowSize'
 
@@ -7,7 +7,8 @@ export const QuestionShowAnswerCard: React.FC<{
   question: Question
   next: () => void
   isLast: boolean
-}> = ({ question, next, isLast }) => {
+  onToggleReport: () => void
+}> = ({ question, next, isLast, onToggleReport }) => {
   const [ready, setReady] = useState(false)
   const { isSmall } = useWindowSize(900)
   const isWide = !isSmall
@@ -65,6 +66,7 @@ export const QuestionShowAnswerCard: React.FC<{
       >
         <div style={buttonContainerStyle}>
           <Button onClick={onCheck}>Check</Button>
+          <Checkbox onChange={() => onToggleReport()}>Report</Checkbox>
           <Button type="primary" disabled={!ready} onClick={onNext}>
             {isLast ? 'Done' : 'Next'}
           </Button>

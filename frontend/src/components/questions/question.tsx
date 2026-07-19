@@ -9,7 +9,8 @@ export const QuestionCard: React.FC<{
   question: Question
   next: () => void
   isLast: boolean
-}> = ({ questionType, question, next, isLast }) => {
+  onToggleReport: (questionId: string) => void
+}> = ({ questionType, question, next, isLast, onToggleReport }) => {
   let questionComponent: React.ReactNode = null
 
   switch (questionType) {
@@ -20,6 +21,7 @@ export const QuestionCard: React.FC<{
           question={question}
           next={next}
           isLast={isLast}
+          onToggleReport={() => onToggleReport(question._id)}
         />
       )
       break
@@ -30,6 +32,7 @@ export const QuestionCard: React.FC<{
           question={question}
           next={next}
           isLast={isLast}
+          onToggleReport={() => onToggleReport(question._id)}
         />
       )
       break

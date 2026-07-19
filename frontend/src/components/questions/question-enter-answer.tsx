@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Input } from 'antd'
+import { Button, Checkbox, Input } from 'antd'
 import { Question } from '../../types'
 import { useWindowSize } from '../../hooks/useWindowSize'
 
@@ -7,7 +7,8 @@ export const QuestionEnterAnswerCard: React.FC<{
   question: Question
   next: () => void
   isLast: boolean
-}> = ({ question, next, isLast }) => {
+  onToggleReport: () => void
+}> = ({ question, next, isLast, onToggleReport }) => {
   const [entered, setEntered] = useState<string>()
   const [ready, setReady] = useState(false)
   const { isSmall } = useWindowSize(900)
@@ -96,6 +97,7 @@ export const QuestionEnterAnswerCard: React.FC<{
 
         <div style={{ marginTop: 12, ...controlContainerStyle }}>
           <Button onClick={onCheck}>Check</Button>
+          <Checkbox onChange={() => onToggleReport()}>Report</Checkbox>
           <Button type="primary" disabled={!ready} onClick={onNext}>
             {isLast ? 'Done' : 'Next'}
           </Button>
