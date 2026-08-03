@@ -35,7 +35,7 @@ export const fetchQuestions = async (queryParams: {
   id?: string
   item?: string
   translation?: string
-  tag: string
+  tag?: string
   page?: number
   limit?: number
 }): Promise<{ questions: Question[]; count: number }> => {
