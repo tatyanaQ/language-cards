@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { fetchAiLesson } from '../api'
 import { AiQuestion } from '../types'
 
-export function useAiLesson(params: { tag?: string; limit?: number }) {
+export function useAiLesson(params: { tags?: string[]; limit?: number }) {
   const [sentences, setSentences] = useState<AiQuestion[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<Error | null>(null)
@@ -14,7 +14,7 @@ export function useAiLesson(params: { tag?: string; limit?: number }) {
       })
       .catch((err) => setError(err))
       .finally(() => setLoading(false))
-  }, [params?.tag, params?.limit])
+  }, [params?.tags, params?.limit])
 
   return { sentences, loading, error }
 }

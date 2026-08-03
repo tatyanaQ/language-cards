@@ -4,20 +4,18 @@ import { FlexRow } from '../../components/FlexRow'
 import { FlexColumn } from '../../components/FlexColumn'
 import { useTags } from '../../hooks/useTags'
 
-const emptyValue = '-'
-
 export const Filter: React.FC<{
-  selectTag: (tag: string) => void
+  selectTags: (tags: string[] | undefined) => void
   defaultLimit?: number
   setLimit: (limit: number) => void
-}> = ({ selectTag, defaultLimit, setLimit }) => {
-  const [selectedTag, setSelectedTag] = useState<string | undefined>()
+}> = ({ selectTags, defaultLimit, setLimit }) => {
+  const [selectedTags, setSelectedTags] = useState<string[]>([])
 
   const { tags, loading: tagsLoading } = useTags()
 
-  const onTagSelect = (t) => {
-    setSelectedTag(t)
-    selectTag(t === emptyValue ? undefined : t)
+  const onTagSelect = (value: string[]) => {
+    setSelectedTags(value)
+    selectTags(value.length ? value : undefined)
   }
 
   return (
@@ -25,13 +23,16 @@ export const Filter: React.FC<{
       <FlexRow>
         <>Tags:</>
         <Select
-          options={[emptyValue, ...tags].map((tag) => ({
+          mode="multiple"
+          allowClear
+          placeholder="Select tags"
+          options={tags.map((tag) => ({
             label: tag,
             value: tag,
           }))}
-          onSelect={onTagSelect}
-          value={selectedTag}
-          style={{ minWidth: '150px' }}
+          onChange={onTagSelect}
+          value={selectedTags}
+          style={{ minWidth: '180px' }}
           loading={tagsLoading}
         />
       </FlexRow>
@@ -41,7 +42,7 @@ export const Filter: React.FC<{
         <Input
           type="number"
           defaultValue={defaultLimit}
-          onChange={(e) => setLimit(e.target.value)}
+          onChange={(e) => setLimit(Number(e.target.value))}
         />
       </FlexRow>
     </FlexColumn>

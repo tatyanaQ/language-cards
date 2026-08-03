@@ -8,7 +8,7 @@ import { QuestionType } from '../../enums'
 const defaultLimit = 20
 
 function WorkOut() {
-  const [selectedTag, setSelectedTag] = useState<string | undefined>()
+  const [selectedTags, setSelectedTags] = useState<string[] | undefined>()
   const [limit, setLimit] = useState<number | undefined>(defaultLimit)
   const [questionType, setQuestionType] = useState<QuestionType>(
     QuestionType.ShowAnswer
@@ -16,11 +16,11 @@ function WorkOut() {
   const [filterReady, setFilterReady] = useState<boolean>(false)
 
   return filterReady ? (
-    <Lesson tag={selectedTag} limit={limit} questionType={questionType} />
+    <Lesson tags={selectedTags} limit={limit} questionType={questionType} />
   ) : (
     <FlexColumn>
       <Filter
-        selectTag={setSelectedTag}
+        selectTags={setSelectedTags}
         defaultLimit={defaultLimit}
         setLimit={setLimit}
         questionType={questionType}

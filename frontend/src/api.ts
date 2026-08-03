@@ -3,7 +3,15 @@ import { AiQuestion, Question } from './types'
 const buildQuery = (params: Record<string, unknown>) =>
   Object.entries(params)
     .filter(([, value]) => value !== undefined)
-    .map(([name, value]) => `${name}=${value}`)
+    .map(([name, value]) => {
+      if (Array.isArray(value)) {
+        return value.map(
+          (item, index) => `${name}[${index}]=${item}`
+        ).join('&')
+      }
+
+      return `${name}=${value}`
+    })
     .join('&')
 
 const localFetch = async (url: string) => {
@@ -38,7 +46,7 @@ export const fetchQuestions = async (queryParams: {
 }
 
 export const fetchLesson = async (queryParams: {
-  tag?: string
+  tags?: string[]
   limit?: number
 }): Promise<{ questions: Question[] }> => {
   const query = buildQuery(queryParams)
@@ -48,7 +56,7 @@ export const fetchLesson = async (queryParams: {
 }
 
 export const fetchAiLesson = async (queryParams: {
-  tag?: string
+  tags?: string[]
   limit?: number
 }): Promise<{
   questions: Question[]

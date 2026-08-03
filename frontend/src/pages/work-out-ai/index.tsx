@@ -7,16 +7,16 @@ import { FlexColumn } from '../../components/FlexColumn'
 const defaultLimit = 20
 
 function WorkOutAi() {
-  const [selectedTag, setSelectedTag] = useState<string | undefined>()
+  const [selectedTags, setSelectedTags] = useState<string[] | undefined>()
   const [limit, setLimit] = useState<number | undefined>(defaultLimit)
   const [filterReady, setFilterReady] = useState<boolean>(false)
 
   return filterReady ? (
-    <Lesson tag={selectedTag} limit={limit} />
+    <Lesson tags={selectedTags} limit={limit} />
   ) : (
     <FlexColumn>
       <Filter
-        selectTag={setSelectedTag}
+        selectTags={setSelectedTags}
         defaultLimit={defaultLimit}
         setLimit={setLimit}
       />
