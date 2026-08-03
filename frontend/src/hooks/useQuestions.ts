@@ -6,7 +6,7 @@ export const useQuestions = (params?: {
   id?: string
   item?: string
   translation?: string
-  tags?: string[]
+  tag?: string
   page?: number
   limit?: number
 }) => {
@@ -27,7 +27,7 @@ export const useQuestions = (params?: {
     params?.id,
     params?.item,
     params?.translation,
-    params?.tags,
+    params?.tag,
     params?.page,
     params?.limit,
   ])
