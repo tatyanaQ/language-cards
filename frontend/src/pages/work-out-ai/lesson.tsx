@@ -6,11 +6,11 @@ import { useWindowSize } from '../../hooks/useWindowSize'
 import { useAiLesson } from '../../hooks/useAiLesson'
 
 export const Lesson: React.FC<{
-  tag?: string
+  tags?: string[]
   limit?: number
-}> = ({ tag, limit }) => {
+}> = ({ tags, limit }) => {
   const { sentences, loading, error } = useAiLesson({
-    tag,
+    tags,
     limit,
   })
   const [current, setCurrent] = useState(0)

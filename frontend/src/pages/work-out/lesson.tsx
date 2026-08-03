@@ -7,12 +7,12 @@ import { useWindowSize } from '../../hooks/useWindowSize'
 import { Report } from './report'
 
 export const Lesson: React.FC<{
-  tag?: string
+  tags?: string[]
   limit?: number
   questionType: QuestionType
-}> = ({ tag, limit, questionType }) => {
+}> = ({ tags, limit, questionType }) => {
   const { questions, loading, error } = useLesson({
-    tag,
+    tags,
     limit,
   })
   const [current, setCurrent] = useState(0)

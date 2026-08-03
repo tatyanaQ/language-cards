@@ -52,7 +52,11 @@ router.get('/questions', async (req: Request, res: Response) => {
 
 router.get('/lesson', async (req: Request, res: Response) => {
   const limit = Number(req.query?.limit) ?? 20
-  const tags = req.query?.tag ? [String(req.query.tag)] : undefined
+
+  const rawTags = req.query?.tags
+  const tags = rawTags?.length
+    ? (Array.isArray(rawTags) ? rawTags : [rawTags]).map((tag) => String(tag))
+    : undefined
 
   const questions = await getLesson({ tags, limit })
 
@@ -61,7 +65,11 @@ router.get('/lesson', async (req: Request, res: Response) => {
 
 router.get('/lesson-ai', async (req: Request, res: Response) => {
   const limit = Math.min(Number(req.query?.limit) ?? 20, 20)
-  const tags = req.query?.tag ? [String(req.query.tag)] : undefined
+
+  const rawTags = req.query?.tags
+  const tags = rawTags
+    ? (Array.isArray(rawTags) ? rawTags : [rawTags]).map((tag) => String(tag))
+    : undefined
 
   const questions = await getLesson({ tags, limit })
 
