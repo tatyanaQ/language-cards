@@ -3,6 +3,7 @@ import { Question } from '../../types'
 import { QuestionType } from '../../enums'
 import { QuestionShowAnswerCard } from './question-show-answer'
 import { QuestionEnterAnswerCard } from './question-enter-answer'
+import { QuestionShowReverseCard } from './question-show-reverse'
 
 export const QuestionCard: React.FC<{
   questionType: QuestionType
@@ -17,6 +18,17 @@ export const QuestionCard: React.FC<{
     case QuestionType.ShowAnswer:
       questionComponent = (
         <QuestionShowAnswerCard
+          key={question._id}
+          question={question}
+          next={next}
+          isLast={isLast}
+          onToggleReport={() => onToggleReport(question._id)}
+        />
+      )
+      break
+    case QuestionType.ShowReverse:
+      questionComponent = (
+        <QuestionShowReverseCard
           key={question._id}
           question={question}
           next={next}
