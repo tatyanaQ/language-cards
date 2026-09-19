@@ -1,23 +1,29 @@
-import { Router, Request, Response } from 'express'
-import { Types } from 'mongoose'
-import { Question } from './db/models/question'
-import { getLesson } from './service/lesson'
-import { generateLesson } from './ai/service'
+import { Router, Request, Response } from 'express';
+import { authMiddleware } from './auth/middleware';
+import authRouter from './auth/router';
+import { Types } from 'mongoose';
+import { Question } from './db/models/question';
+import { getLesson } from './service/lesson';
+import { generateLesson } from './ai/service';
 
-const router = Router()
+const router = Router();
+
+router.use('/auth', authRouter);
+
+router.use(authMiddleware);
 
 router.get('/', (req: Request, res: Response) => {
-  res.json({ data: 'hello from api' })
-})
+  res.json({ data: 'hello from api' });
+});
 
 router.get('/tags', async (req: Request, res: Response) => {
-  const questions = await Question.find()
-  const allTags = questions.flatMap(({ tags }) => tags)
+  const questions = await Question.find();
+  const allTags = questions.flatMap(({ tags }) => tags);
 
   res.json({
     tags: Array.from(new Set(allTags)),
-  })
-})
+  });
+});
 
 router.get('/questions', async (req: Request, res: Response) => {
   const {
@@ -27,55 +33,55 @@ router.get('/questions', async (req: Request, res: Response) => {
     tag,
     page = '1',
     limit = '100',
-  } = req.query || {}
+  } = req.query || {};
 
   const query = {
     ...(id && { _id: new Types.ObjectId(id.toString()) }),
     ...(item && { item: new RegExp(String(item), 'i') }),
     ...(translation && { translation: new RegExp(String(translation), 'i') }),
     ...(tag && { tags: tag }),
-  }
+  };
 
-  const numberPage = Number(page)
-  const numberLimit = Number(limit)
+  const numberPage = Number(page);
+  const numberLimit = Number(limit);
 
   const options = {
     skip: (numberPage - 1) * numberLimit,
     limit: numberLimit,
-  }
+  };
 
-  const questions = await Question.find(query, null, options)
-  const count = await Question.countDocuments(query)
+  const questions = await Question.find(query, null, options);
+  const count = await Question.countDocuments(query);
 
-  res.json({ questions, count })
-})
+  res.json({ questions, count });
+});
 
 router.get('/lesson', async (req: Request, res: Response) => {
-  const limit = Number(req.query?.limit) ?? 20
+  const limit = Number(req.query?.limit) ?? 20;
 
-  const rawTags = req.query?.tags
+  const rawTags = req.query?.tags;
   const tags = rawTags?.length
     ? (Array.isArray(rawTags) ? rawTags : [rawTags]).map((tag) => String(tag))
-    : undefined
+    : undefined;
 
-  const questions = await getLesson({ tags, limit })
+  const questions = await getLesson({ tags, limit });
 
-  res.json({ questions })
-})
+  res.json({ questions });
+});
 
 router.get('/lesson-ai', async (req: Request, res: Response) => {
-  const limit = Math.min(Number(req.query?.limit) ?? 20, 20)
+  const limit = Math.min(Number(req.query?.limit) ?? 20, 20);
 
-  const rawTags = req.query?.tags
+  const rawTags = req.query?.tags;
   const tags = rawTags
     ? (Array.isArray(rawTags) ? rawTags : [rawTags]).map((tag) => String(tag))
-    : undefined
+    : undefined;
 
-  const questions = await getLesson({ tags, limit })
+  const questions = await getLesson({ tags, limit });
 
-  const aiLesson = await generateLesson(questions)
+  const aiLesson = await generateLesson(questions);
 
-  res.json({ questions, aiLesson })
-})
+  res.json({ questions, aiLesson });
+});
 
-export default router
+export default router;
