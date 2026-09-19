@@ -1,7 +1,10 @@
-import Cards from '../pages/cards'
-import Card from '../pages/cards/card'
-import WorkOut from '../pages/work-out'
-import WorkOutAI from '../pages/work-out-ai'
+import Cards from '../pages/cards';
+import Card from '../pages/cards/card';
+import WorkOut from '../pages/work-out';
+import WorkOutAI from '../pages/work-out-ai';
+import LoginPage from '../pages/login';
+
+export const loginRoute = { path: '/login', element: <LoginPage /> };
 
 export const routes = [
   {
@@ -25,4 +28,4 @@ export const routes = [
     label: 'Work out AI',
     element: <WorkOutAI />,
   },
-]
+];

@@ -1,10 +1,10 @@
-import express from 'express'
-import path from 'path'
-import cors from 'cors'
-import router from './router'
-import { dbConnect } from './db/models/connect'
+import express from 'express';
+import path from 'path';
+import cors from 'cors';
+import router from './router';
+import { dbConnect } from './db/models/connect';
 
-const app = express()
+const app = express();
 
 const initApp = () => {
   app.use(
@@ -12,31 +12,33 @@ const initApp = () => {
       origin: 'http://localhost:3000',
       methods: '*',
     })
-  )
+  );
 
-  app.use(express.static(path.join(__dirname, 'public')))
+  app.use(express.json());
 
-  app.use('/api', router)
+  app.use(express.static(path.join(__dirname, 'public')));
+
+  app.use('/api', router);
 
   app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'))
-  })
-}
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  });
+};
 
 const init = async () => {
-  initApp()
+  initApp();
 
-  const port = process.env.PORT || 8000
+  const port = process.env.PORT || 8000;
 
-  await dbConnect()
+  await dbConnect();
 
   app.listen(port, () => {
-    console.log(`[server]: Server is running at http://localhost:${port}`)
-  })
-}
+    console.log(`[server]: Server is running at http://localhost:${port}`);
+  });
+};
 
 init().catch((error) => {
-  console.log(`[server]: Server failed to start. ${error.stack}`)
-})
+  console.log(`[server]: Server failed to start. ${error.stack}`);
+});
 
-export default app
+export default app;
