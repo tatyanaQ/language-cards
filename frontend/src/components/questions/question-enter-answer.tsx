@@ -1,17 +1,18 @@
-import React, { useState } from 'react'
-import { Button, Checkbox, Input } from 'antd'
-import { Question } from '../../types'
-import { useWindowSize } from '../../hooks/useWindowSize'
+import React, { useState } from 'react';
+import { Button, Checkbox, Input } from 'antd';
+import { Question } from '../../types';
+import { useWindowSize } from '../../hooks/useWindowSize';
+import { recordReply } from '../../api';
 
 export const QuestionEnterAnswerCard: React.FC<{
-  question: Question
-  next: () => void
-  isLast: boolean
-  onToggleReport: () => void
+  question: Question;
+  next: () => void;
+  isLast: boolean;
+  onToggleReport: () => void;
 }> = ({ question, next, isLast, onToggleReport }) => {
-  const [entered, setEntered] = useState<string>()
-  const [ready, setReady] = useState(false)
-  const { isSmall } = useWindowSize(900)
+  const [entered, setEntered] = useState<string>();
+  const [ready, setReady] = useState(false);
+  const { isSmall } = useWindowSize(900);
 
   const contentStyle: React.CSSProperties = {
     minHeight: 120,
@@ -26,21 +27,21 @@ export const QuestionEnterAnswerCard: React.FC<{
     alignItems: 'center',
     justifyContent: 'center',
     fontSize: 18,
-  }
+  };
 
   const correactAnswerStyle: React.CSSProperties = {
     ...contentStyle,
     color: '#0f5132',
     border: '1px solid rgba(16,185,129,0.15)',
     backgroundColor: '#f6fffa',
-  }
+  };
 
   const wrongAnswerStyle: React.CSSProperties = {
     ...contentStyle,
     color: '#7f1d1d',
     border: '1px solid rgba(248,113,113,0.12)',
     backgroundColor: '#fff5f5',
-  }
+  };
 
   const controlContainerStyle: React.CSSProperties = {
     display: 'flex',
@@ -48,26 +49,27 @@ export const QuestionEnterAnswerCard: React.FC<{
     alignItems: 'center',
     justifyContent: 'center',
     gap: 12,
-  }
+  };
 
   const textareaStyle: React.CSSProperties = {
     width: '100%',
     minHeight: isSmall ? 120 : 160,
     resize: 'vertical',
-  }
+  };
 
   const onInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setEntered(e.target.value)
-  }
+    setEntered(e.target.value);
+  };
 
   const onCheck = () => {
-    setReady(true)
-  }
+    recordReply(question._id);
+    setReady(true);
+  };
 
   const onNext = () => {
-    next()
-    setReady(false)
-  }
+    next();
+    setReady(false);
+  };
 
   return (
     <div
@@ -122,5 +124,5 @@ export const QuestionEnterAnswerCard: React.FC<{
         )}
       </div>
     </div>
-  )
-}
+  );
+};

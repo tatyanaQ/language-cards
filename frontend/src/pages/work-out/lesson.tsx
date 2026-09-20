@@ -1,67 +1,69 @@
-import React, { useState } from 'react'
-import { Steps } from 'antd'
-import { QuestionCard } from '../../components/questions/question'
-import { QuestionType } from '../../enums'
-import { useLesson } from '../../hooks/useLesson'
-import { useWindowSize } from '../../hooks/useWindowSize'
-import { Report } from './report'
+import React, { useState } from 'react';
+import { Steps } from 'antd';
+import { QuestionCard } from '../../components/questions/question';
+import { QuestionType } from '../../enums';
+import { useLesson } from '../../hooks/useLesson';
+import { useWindowSize } from '../../hooks/useWindowSize';
+import { Report } from './report';
 
 export const Lesson: React.FC<{
-  tags?: string[]
-  limit?: number
-  questionType: QuestionType
-}> = ({ tags, limit, questionType }) => {
+  tags?: string[];
+  limit?: number;
+  onlyUnreplied?: boolean;
+  questionType: QuestionType;
+}> = ({ tags, limit, onlyUnreplied, questionType }) => {
   const { questions, loading, error } = useLesson({
     tags,
     limit,
-  })
-  const [current, setCurrent] = useState(0)
-  const [finished, setFinished] = useState(false)
-  const [reportedQuestionIds, setReportedQuestionIds] = useState<string[]>([])
+    onlyUnreplied,
+  });
+  const [current, setCurrent] = useState(0);
+  const [finished, setFinished] = useState(false);
+  const [reportedQuestionIds, setReportedQuestionIds] = useState<string[]>([]);
 
-  const { isSmall } = useWindowSize(600)
+  const { isSmall } = useWindowSize(600);
 
-  const isLast = (current: number) => current === questions.length - 1
+  const isLast = (current: number) => current === questions.length - 1;
 
   const toggleReport = (questionId: string) => {
     setReportedQuestionIds((currentIds) =>
       currentIds.includes(questionId)
         ? currentIds.filter((id) => id !== questionId)
         : [...currentIds, questionId]
-    )
-  }
+    );
+  };
 
   const next = () => {
     if (!isLast(current)) {
-      setCurrent(current + 1)
+      setCurrent(current + 1);
     } else {
-      setFinished(true)
+      setFinished(true);
     }
-  }
+  };
 
   const finish = () => {
-    window.location.reload()
-    return
-  }
+    window.location.reload();
+    return;
+  };
 
   const items = questions.map((item, index) => ({
     key: index,
     title: '',
-  }))
+  }));
 
-  if (loading) return <>Loading...</>
-  if (error) return <>Failed to fetch questions: {error.message}</>
+  if (loading) return <>Loading...</>;
+  if (error) return <>Failed to fetch questions: {error.message}</>;
 
   if (finished) {
     const reportedQuestions = questions.filter((question) =>
       reportedQuestionIds.includes(question._id)
-    )
+    );
 
     if (reportedQuestionIds.length === 0) {
-      finish()
+      finish();
     }
 
-    return <Report questions={reportedQuestions} />
+    return <Report questions={reportedQuestions} />;
   }
 
   return (
@@ -115,5 +117,5 @@ export const Lesson: React.FC<{
         <>No questions</>
       )}
     </>
-  )
-}
+  );
+};

@@ -21,14 +21,18 @@ const buildQuery = (params: Record<string, unknown>) =>
     })
     .join('&');
 
-const localFetch = async (url: string) => {
+const localFetch = async (url: string, body?: unknown) => {
   try {
     const hostUrl = resolveHostUrl(url);
     const token = getJwt();
     const headers: Record<string, string> = {};
     if (token) headers['Authorization'] = `Bearer ${token}`;
+    if (body) headers['Content-Type'] = 'application/json';
 
-    const resp = await fetch(hostUrl, { headers });
+    const resp = await fetch(hostUrl, {
+      headers,
+      ...(body ? { method: 'POST', body: JSON.stringify(body) } : {}),
+    });
     if (resp.status === 401) {
       removeJwt();
     }
@@ -100,6 +104,7 @@ export const fetchQuestions = async (queryParams: {
 export const fetchLesson = async (queryParams: {
   tags?: string[];
   limit?: number;
+  onlyUnreplied?: boolean;
 }): Promise<{ questions: Question[] }> => {
   const query = buildQuery(queryParams);
 
@@ -118,4 +123,9 @@ export const fetchAiLesson = async (queryParams: {
 
   const resp = await localFetch(`lesson-ai?${query}`);
   return await resp.json();
+};
+
+export const recordReply = async (questionId: string) => {
+  const resp = await localFetch('reply', { questionId });
+  await resp.json();
 };
