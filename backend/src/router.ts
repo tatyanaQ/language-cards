@@ -96,13 +96,15 @@ router.get('/lesson-ai', async (req: Request, res: Response) => {
 });
 
 router.post('/reply', async (req: Request, res: Response) => {
+  const { _id } = res.locals.user;
+
   const { questionId } = req.body;
   if (!questionId) {
     res.status(400).json({ error: 'questionId is required' });
     return;
   }
 
-  const question = await Question.findById(questionId);
+  const question = await Question.findOne({ _id: questionId, userId: _id });
   if (!question) {
     res.status(404).json({ error: 'Question not found' });
     return;
