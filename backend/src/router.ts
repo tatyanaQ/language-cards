@@ -17,7 +17,8 @@ router.get('/', (req: Request, res: Response) => {
 });
 
 router.get('/tags', async (req: Request, res: Response) => {
-  const questions = await Question.find();
+  const { _id } = res.locals.user;
+  const questions = await Question.find({ userId: _id });
   const allTags = questions.flatMap(({ tags }) => tags);
 
   res.json({
@@ -26,6 +27,7 @@ router.get('/tags', async (req: Request, res: Response) => {
 });
 
 router.get('/questions', async (req: Request, res: Response) => {
+  const { _id } = res.locals.user;
   const {
     id,
     item,
@@ -36,6 +38,7 @@ router.get('/questions', async (req: Request, res: Response) => {
   } = req.query || {};
 
   const query = {
+    userId: _id,
     ...(id && { _id: new Types.ObjectId(id.toString()) }),
     ...(item && { item: new RegExp(String(item), 'i') }),
     ...(translation && { translation: new RegExp(String(translation), 'i') }),
@@ -57,19 +60,27 @@ router.get('/questions', async (req: Request, res: Response) => {
 });
 
 router.get('/lesson', async (req: Request, res: Response) => {
+  const { _id } = res.locals.user;
   const limit = Number(req.query?.limit) ?? 20;
+  const onlyUnreplied = req.query?.onlyUnreplied === 'true';
 
   const rawTags = req.query?.tags;
   const tags = rawTags?.length
     ? (Array.isArray(rawTags) ? rawTags : [rawTags]).map((tag) => String(tag))
     : undefined;
 
-  const questions = await getLesson({ tags, limit });
+  const questions = await getLesson({
+    userId: _id,
+    tags,
+    limit,
+    noReplies: onlyUnreplied,
+  });
 
   res.json({ questions });
 });
 
 router.get('/lesson-ai', async (req: Request, res: Response) => {
+  const { _id } = res.locals.user;
   const limit = Math.min(Number(req.query?.limit) ?? 20, 20);
 
   const rawTags = req.query?.tags;
@@ -77,11 +88,31 @@ router.get('/lesson-ai', async (req: Request, res: Response) => {
     ? (Array.isArray(rawTags) ? rawTags : [rawTags]).map((tag) => String(tag))
     : undefined;
 
-  const questions = await getLesson({ tags, limit });
+  const questions = await getLesson({ userId: _id, tags, limit });
 
   const aiLesson = await generateLesson(questions);
 
   res.json({ questions, aiLesson });
+});
+
+router.post('/reply', async (req: Request, res: Response) => {
+  const { _id } = res.locals.user;
+
+  const { questionId } = req.body;
+  if (!questionId) {
+    res.status(400).json({ error: 'questionId is required' });
+    return;
+  }
+
+  const question = await Question.findOne({ _id: questionId, userId: _id });
+  if (!question) {
+    res.status(404).json({ error: 'Question not found' });
+    return;
+  }
+
+  await question.updateOne({ $inc: { 'replies.count': 1 } });
+
+  res.json({ status: 'ok' });
 });
 
 export default router;

@@ -1,17 +1,18 @@
-import React, { useState } from 'react'
-import { Button, Checkbox } from 'antd'
-import { Question } from '../../types'
-import { useWindowSize } from '../../hooks/useWindowSize'
+import React, { useState } from 'react';
+import { Button, Checkbox } from 'antd';
+import { Question } from '../../types';
+import { useWindowSize } from '../../hooks/useWindowSize';
+import { recordReply } from '../../api';
 
 export const QuestionShowReverseCard: React.FC<{
-  question: Question
-  next: () => void
-  isLast: boolean
-  onToggleReport: () => void
+  question: Question;
+  next: () => void;
+  isLast: boolean;
+  onToggleReport: () => void;
 }> = ({ question, next, isLast, onToggleReport }) => {
-  const [ready, setReady] = useState(false)
-  const { isSmall } = useWindowSize(900)
-  const isWide = !isSmall
+  const [ready, setReady] = useState(false);
+  const { isSmall } = useWindowSize(900);
+  const isWide = !isSmall;
 
   const contentStyle: React.CSSProperties = {
     minHeight: 120,
@@ -26,7 +27,7 @@ export const QuestionShowReverseCard: React.FC<{
     alignItems: 'center',
     justifyContent: 'center',
     fontSize: 18,
-  }
+  };
 
   const buttonContainerStyle: React.CSSProperties = {
     display: 'flex',
@@ -34,13 +35,17 @@ export const QuestionShowReverseCard: React.FC<{
     alignItems: 'center',
     justifyContent: 'center',
     gap: 12,
-  }
+  };
 
-  const onCheck = () => setReady(true)
+  const onCheck = () => {
+    recordReply(question._id);
+    setReady(true);
+  };
+
   const onNext = () => {
-    next()
-    setReady(false)
-  }
+    next();
+    setReady(false);
+  };
 
   return (
     <div
@@ -79,7 +84,7 @@ export const QuestionShowReverseCard: React.FC<{
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default QuestionShowReverseCard
+export default QuestionShowReverseCard;

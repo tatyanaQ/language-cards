@@ -1,29 +1,37 @@
-import React, { useState } from 'react'
-import { Input, Select } from 'antd'
-import { FlexRow } from '../../components/FlexRow'
-import { FlexColumn } from '../../components/FlexColumn'
-import { QuestionType } from '../../enums'
-import { useTags } from '../../hooks/useTags'
+import React, { useState } from 'react';
+import { Input, Select, Checkbox } from 'antd';
+import { FlexRow } from '../../components/FlexRow';
+import { FlexColumn } from '../../components/FlexColumn';
+import { QuestionType } from '../../enums';
+import { useTags } from '../../hooks/useTags';
 
 export const Filter: React.FC<{
-  selectTags: (tags: string[] | undefined) => void
-  defaultLimit?: number
-  setLimit: (limit: number) => void
-  questionType: string
-  setQuestionType: (questionType: string) => void
-}> = ({ selectTags, defaultLimit, setLimit, questionType, setQuestionType }) => {
-  const [selectedTags, setSelectedTags] = useState<string[]>([])
+  selectTags: (tags: string[] | undefined) => void;
+  defaultLimit?: number;
+  setLimit: (limit: number) => void;
+  setOnlyUnreplied: (onlyUnreplied: boolean) => void;
+  questionType: string;
+  setQuestionType: (questionType: string) => void;
+}> = ({
+  selectTags,
+  defaultLimit,
+  setLimit,
+  setOnlyUnreplied,
+  questionType,
+  setQuestionType,
+}) => {
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
-  const { tags, loading: tagsLoading } = useTags()
+  const { tags, loading: tagsLoading } = useTags();
 
   const onTagSelect = (value: string[]) => {
-    setSelectedTags(value)
-    selectTags(value.length ? value : undefined)
-  }
+    setSelectedTags(value);
+    selectTags(value.length ? value : undefined);
+  };
 
   const onQuestionTypeSelect = (qt) => {
-    setQuestionType(qt)
-  }
+    setQuestionType(qt);
+  };
 
   return (
     <FlexColumn>
@@ -54,6 +62,11 @@ export const Filter: React.FC<{
       </FlexRow>
 
       <FlexRow>
+        <>Only unreplied</>
+        <Checkbox onChange={(e) => setOnlyUnreplied(e.target.checked)} />
+      </FlexRow>
+
+      <FlexRow>
         <>Question type:</>
         <Select
           options={Object.values(QuestionType).map((qt) => ({
@@ -66,5 +79,5 @@ export const Filter: React.FC<{
         />
       </FlexRow>
     </FlexColumn>
-  )
-}
+  );
+};
