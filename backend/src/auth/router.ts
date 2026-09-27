@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { signToken } from './utils';
 import { User, UserDocument } from '../db/models/user';
+import { createExampleQuestion } from '../service/question';
 import bcrypt from 'bcrypt';
 import { authMiddleware } from './middleware';
 
@@ -25,6 +26,12 @@ router.post('/login', async (req: Request, res: Response) => {
     const passwordHash = await bcrypt.hash(password, 10);
     user = new User({ username, passwordHash });
     await user.save();
+
+    try {
+      await createExampleQuestion(user._id);
+    } catch (e) {
+      console.error('Failed to create example question', e);
+    }
 
     const token = signToken({ userId: user._id.toString() });
     res.status(201).json({
